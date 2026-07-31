@@ -33,7 +33,8 @@ export default function ManagePage() {
   const load = useCallback(async () => {
     try {
       const data = await manageGet(token)
-      setCard(data || null)
+      // A non-matching token returns an all-null composite row, not null.
+      setCard(data && data.id ? data : null)
       setError('')
     } catch (err) {
       setError(err.message)
