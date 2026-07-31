@@ -26,3 +26,48 @@ export async function submitCard(form) {
   if (error) throw new Error(error.message)
   return data
 }
+
+// Public read of a single card (RLS returns it only if approved/claimed).
+export async function fetchCard(cardId) {
+  if (!isSupabaseConfigured) throw new Error('Database not connected.')
+  const { data, error } = await supabase
+    .from('cards')
+    .select('*')
+    .eq('id', cardId)
+    .maybeSingle()
+  if (error) throw new Error(error.message)
+  return data
+}
+
+// Reveal a poster's contact (returns null unless the card is approved).
+export async function revealContact(cardId) {
+  if (!isSupabaseConfigured) throw new Error('Database not connected.')
+  const { data, error } = await supabase.rpc('reveal_contact', {
+    p_card_id: cardId,
+  })
+  if (error) throw new Error(error.message)
+  return data
+}
+
+// Manage (poster, via secret token).
+export async function manageGet(token) {
+  if (!isSupabaseConfigured) throw new Error('Database not connected.')
+  const { data, error } = await supabase.rpc('manage_get', { p_token: token })
+  if (error) throw new Error(error.message)
+  return data
+}
+
+export async function manageSetStatus(token, status) {
+  if (!isSupabaseConfigured) throw new Error('Database not connected.')
+  const { error } = await supabase.rpc('manage_set_status', {
+    p_token: token,
+    p_status: status,
+  })
+  if (error) throw new Error(error.message)
+}
+
+export async function manageDeleteCard(token) {
+  if (!isSupabaseConfigured) throw new Error('Database not connected.')
+  const { error } = await supabase.rpc('manage_delete_card', { p_token: token })
+  if (error) throw new Error(error.message)
+}

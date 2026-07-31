@@ -1132,3 +1132,124 @@ body {
     flex-wrap: wrap;
   }
 }
+
+/* ============================================================
+   Reveal (/c/:id) + Manage (/m/:token) sheets
+   ============================================================ */
+
+.sheet {
+  align-self: center;
+  max-width: 460px;
+  gap: 14px;
+}
+
+.sheet__type {
+  align-self: flex-start;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.sheet__type--wanted {
+  color: var(--wanted);
+  background: var(--wanted-soft);
+}
+
+.sheet__type--got_it {
+  color: var(--gotit);
+  background: var(--gotit-soft);
+}
+
+.sheet__title {
+  margin: 0;
+  font-size: clamp(24px, 5vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.sheet__desc {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+.sheet__author {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-faint);
+}
+
+.sheet__statusline {
+  display: flex;
+}
+
+.sheet__contactbox {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(52, 208, 127, 0.35);
+  background: var(--gotit-soft);
+}
+
+.sheet__contactbox--muted {
+  border-color: var(--card-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-dim);
+  font-size: 15px;
+}
+
+.sheet__contactlabel {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.sheet__contact {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  word-break: break-word;
+  text-decoration: none;
+}
+
+a.sheet__contact:hover {
+  text-decoration: underline;
+}
+
+.sheet__contactactions {
+  display: flex;
+  gap: 8px;
+}
+
+.sheet__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.sheet__confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+.sheet__confirmrow {
+  display: flex;
+  gap: 8px;
+}
+
+.sheet__back {
+  margin-top: 6px;
+}

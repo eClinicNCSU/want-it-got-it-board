@@ -127,6 +127,17 @@ begin
     and c.status in ('approved', 'claimed'); -- can't self-approve a pending card
 end; $$;
 
+-- Manage page: poster takes down their own card (card_private cascades).
+create or replace function public.manage_delete_card(p_token uuid)
+returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  delete from public.cards
+  where id in (
+    select card_id from public.card_private where manage_token = p_token
+  );
+end; $$;
+
 -- ---------- Grants ----------
 
 grant execute on function
@@ -135,6 +146,7 @@ grant execute on function
 grant execute on function public.reveal_contact(uuid) to anon;
 grant execute on function public.manage_get(uuid) to anon;
 grant execute on function public.manage_set_status(uuid, text) to anon;
+grant execute on function public.manage_delete_card(uuid) to anon;
 
 -- ---------- Realtime ----------
 -- Add the public cards table to the realtime publication (guarded so re-runs

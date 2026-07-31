@@ -143,8 +143,10 @@ the filter bar. Custom tags default to "Everything else" until an admin re-bucke
       client, `useCards` fetch + realtime subscription, sample-data fallback. Setup in README.
 - [x] Submit form (`/submit`) + `submit_card` RPC wired to the UI. Routing via
       react-router. RPC + RLS verified end-to-end against the live DB.
-- [ ] Reveal page (`/c/:id`) using `reveal_contact`.
-- [ ] Manage link (`/m/:token`) using `manage_get` / `manage_set_status`.
+- [x] Reveal page (`/c/:id`) using `reveal_contact` + card context, smart contact link.
+      Verified live.
+- [x] Manage link (`/m/:token`) using `manage_get` / `manage_set_status` +
+      `manage_delete_card` (take it down). Verified live (delete needs schema re-run).
 - [x] Admin console (`/admin`) — rotatable shared-password login (bcrypt in DB),
       approval queue, approve/hide/claim/delete, change password, clear board.
 - [ ] Per-card QR (submit QR + reveal QR), routing, deploy.
