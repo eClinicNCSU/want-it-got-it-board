@@ -12,7 +12,6 @@ const BADGE_LABELS = {
 }
 
 export default function Card({ card, side }) {
-  const claimed = card.status === 'claimed'
   const badge = card.badge
 
   // Absolute URL so the QR resolves wherever the board is deployed. Tapping the
@@ -23,10 +22,7 @@ export default function Card({ card, side }) {
       : `/c/${card.id}`
 
   return (
-    <Link
-      to={`/c/${card.id}`}
-      className={`card card--${side}` + (claimed ? ' card--claimed' : '')}
-    >
+    <Link to={`/c/${card.id}`} className={`card card--${side}`}>
       <div className="card__top">
         <h3 className="card__title">{card.title}</h3>
         {badge && (
