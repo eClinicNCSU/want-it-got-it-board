@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Wanted & Got It board for the NC State Entrepreneurship Garage",
+  "description": "Want it Got It board for the NC State Entrepreneurship Garage",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

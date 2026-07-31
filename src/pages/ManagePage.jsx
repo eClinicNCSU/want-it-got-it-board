@@ -91,7 +91,7 @@ export default function ManagePage() {
             </div>
 
             <span className={`sheet__type sheet__type--${card.type}`}>
-              {card.type === 'wanted' ? 'Wanted' : 'Got it'}
+              {card.type === 'wanted' ? 'Want it' : 'Got it'}
             </span>
             <h1 className="sheet__title">{card.title}</h1>
             <p className="sheet__desc">{card.description}</p>

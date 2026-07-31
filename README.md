@@ -1,4 +1,4 @@
-# Wanted & Got It — NC State Entrepreneurship Garage
+# Want it Got It — NC State Entrepreneurship Garage
 
 A live board for the garage TV. Students post **Wanted** cards (skills/people they're
 looking for) and **Got It** cards (skills they offer) from their phones; approved cards

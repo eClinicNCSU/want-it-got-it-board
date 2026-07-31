@@ -12,13 +12,13 @@ export default function Header({ now, wantedCount, gotItCount }) {
   return (
     <header className="header">
       <div className="header__title">
-        <h1>Wanted &amp; Got It</h1>
+        <h1>Want it Got It</h1>
         <p>NC State Entrepreneurship Garage</p>
       </div>
       <div className="header__meta">
         <div className="stat stat--wanted">
           <span className="stat__num">{wantedCount}</span>
-          <span className="stat__label">Wanted</span>
+          <span className="stat__label">Want it</span>
         </div>
         <div className="stat stat--gotit">
           <span className="stat__num">{gotItCount}</span>

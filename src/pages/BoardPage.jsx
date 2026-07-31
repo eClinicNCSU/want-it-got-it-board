@@ -39,7 +39,7 @@ export default function BoardPage() {
       <main className="board">
         <Column
           side="wanted"
-          title="Wanted"
+          title="Want it"
           subtitle="what people are looking for"
           cards={wanted}
         />

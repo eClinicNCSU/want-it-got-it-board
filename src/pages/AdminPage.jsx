@@ -236,7 +236,7 @@ function AdminRow({ card, pw, busy, act }) {
       <div className="admin__rowmain">
         <div className="admin__rowtop">
           <span className={`admin__type admin__type--${card.type}`}>
-            {card.type === 'wanted' ? 'Wanted' : 'Got it'}
+            {card.type === 'wanted' ? 'Want it' : 'Got it'}
           </span>
           <strong className="admin__rowtitle">{card.title}</strong>
           {card.is_paid && <span className="admin__flag">paid</span>}

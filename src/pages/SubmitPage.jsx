@@ -147,7 +147,7 @@ export default function SubmitPage() {
               }
               onClick={() => set('type', 'wanted')}
             >
-              <strong>Wanted</strong>
+              <strong>Want it</strong>
               <span>something I'm looking for</span>
             </button>
             <button

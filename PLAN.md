@@ -1,4 +1,4 @@
-# Wanted / Got It Board — Project Plan
+# Want it Got It Board — Project Plan
 
 A live board for the NC State Entrepreneurship Garage. Students post cards in one of
 two categories:
@@ -32,11 +32,11 @@ phones by scanning a QR code. New cards appear on the TV live after admin approv
 Dark, glassmorphic, high-contrast for legibility across a room. Background gradient runs
 red (Wanted / left) → green (Got It / right) → purple (bottom).
 
-- **Header:** "Wanted & Got It" + "NC State Entrepreneurship Garage" on a gradient pill.
+- **Header:** "Want it Got It" + "NC State Entrepreneurship Garage" on a gradient pill.
   Right side: live **Wanted count** (red) · **Got It count** (green) · **clock**.
 - **Filter bar:** "FILTER" + friendly bucket buttons — Everything (default) · Code · Design ·
   Build · Business · Everything else. Active button is a solid white pill.
-- **Two columns:** "Wanted — what people are looking for" (red glow) and
+- **Two columns:** "Want it — what people are looking for" (red glow) and
   "Got it — what people can do" (green glow).
 - **Card:** title · description · granular colored tag pills · divider · footer =
   initials avatar + name + "major 'gradyear" + time-ago. Top-right corner: status badge.
