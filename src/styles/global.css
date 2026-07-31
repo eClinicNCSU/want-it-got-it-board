@@ -195,14 +195,8 @@ body {
   font-weight: 600;
 }
 
-.filterbar__divider {
-  width: 1px;
-  align-self: stretch;
-  margin: 2px 4px;
-  background: var(--card-border);
-}
-
 .filterbar__chip--claimed {
+  margin-left: auto;
   color: var(--text-faint);
 }
 

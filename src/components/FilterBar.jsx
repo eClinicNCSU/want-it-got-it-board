@@ -18,8 +18,7 @@ export default function FilterBar({ active, onChange, claimedCount = 0 }) {
         </button>
       ))}
 
-      {/* Claimed is a status, not a tag bucket — set it apart. */}
-      <span className="filterbar__divider" aria-hidden="true" />
+      {/* Claimed is a status, not a tag bucket — pushed to the far right. */}
       <button
         type="button"
         className={
