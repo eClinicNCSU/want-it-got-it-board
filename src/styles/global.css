@@ -286,6 +286,13 @@ body {
   flex-direction: column;
   gap: clamp(10px, 1vw, 16px);
   transition: transform 0.15s ease, border-color 0.15s ease;
+  color: inherit;
+  text-decoration: none;
+}
+
+.card:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-2px);
 }
 
 .card--wanted {
@@ -452,6 +459,57 @@ body {
   font-size: clamp(11px, 0.85vw, 14px);
   color: var(--text-faint);
   font-variant-numeric: tabular-nums;
+}
+
+/* ---------------- QR codes ---------------- */
+
+.qr {
+  display: inline-flex;
+  line-height: 0;
+  background: #fff;
+  padding: 5px;
+  border-radius: 8px;
+}
+
+.card__qr {
+  flex: none;
+  align-self: center;
+}
+
+.submitqr {
+  position: fixed;
+  right: clamp(16px, 2vw, 34px);
+  bottom: clamp(16px, 2vw, 34px);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  border-radius: 22px;
+  border: 1px solid var(--card-border);
+  background: rgba(18, 16, 26, 0.74);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 12px 44px rgba(0, 0, 0, 0.45);
+  text-decoration: none;
+  color: var(--text);
+}
+
+.submitqr__text {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.submitqr__title {
+  font-weight: 800;
+  font-size: clamp(15px, 1.2vw, 21px);
+  letter-spacing: -0.01em;
+}
+
+.submitqr__sub {
+  font-size: clamp(11px, 0.9vw, 14px);
+  color: var(--text-dim);
 }
 
 /* ---------------- Responsive ---------------- */

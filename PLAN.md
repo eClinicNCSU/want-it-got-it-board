@@ -149,7 +149,9 @@ the filter bar. Custom tags default to "Everything else" until an admin re-bucke
       `manage_delete_card` (take it down). Verified live (delete needs schema re-run).
 - [x] Admin console (`/admin`) — rotatable shared-password login (bcrypt in DB),
       approval queue, approve/hide/claim/delete, change password, clear board.
-- [ ] Per-card QR (submit QR + reveal QR), routing, deploy.
+- [x] QR codes: floating "Post a card" QR (→ /submit) on the board; per-card reveal
+      QR (→ /c/:id) and tap-to-reveal. Uses window.location.origin. Prod build passes.
+- [ ] Deploy (Vercel/Netlify): SPA fallback rewrite + VITE_SUPABASE_* env vars.
 
 ## Next steps
 

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import Header from '../components/Header.jsx'
 import FilterBar from '../components/FilterBar.jsx'
 import Column from '../components/Column.jsx'
+import SubmitQr from '../components/SubmitQr.jsx'
 import { cardInBucket } from '../lib/buckets.js'
 import { useCards } from '../lib/useCards.js'
 
@@ -49,6 +50,7 @@ export default function BoardPage() {
           cards={gotIt}
         />
       </main>
+      <SubmitQr />
     </div>
   )
 }

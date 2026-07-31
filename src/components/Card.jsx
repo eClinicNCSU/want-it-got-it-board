@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom'
 import Avatar from './Avatar.jsx'
+import QrCode from './QrCode.jsx'
 import { bucketForTag } from '../lib/buckets.js'
 import { timeAgo } from '../lib/time.js'
 
@@ -13,11 +15,17 @@ export default function Card({ card, side }) {
   const claimed = card.status === 'claimed'
   const badge = card.badge
 
+  // Absolute URL so the QR resolves wherever the board is deployed. Tapping the
+  // card (on the iPad) and scanning the QR (from a phone) both open the reveal.
+  const revealUrl =
+    typeof window !== 'undefined'
+      ? `${window.location.origin}/c/${card.id}`
+      : `/c/${card.id}`
+
   return (
-    <article
-      className={
-        `card card--${side}` + (claimed ? ' card--claimed' : '')
-      }
+    <Link
+      to={`/c/${card.id}`}
+      className={`card card--${side}` + (claimed ? ' card--claimed' : '')}
     >
       <div className="card__top">
         <h3 className="card__title">{card.title}</h3>
@@ -50,7 +58,10 @@ export default function Card({ card, side }) {
           </span>
         </div>
         <span className="card__time">{timeAgo(card.hoursAgo)}</span>
+        <span className="card__qr" title="Scan for contact">
+          <QrCode value={revealUrl} size={52} />
+        </span>
       </div>
-    </article>
+    </Link>
   )
 }
