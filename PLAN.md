@@ -151,7 +151,8 @@ the filter bar. Custom tags default to "Everything else" until an admin re-bucke
       approval queue, approve/hide/claim/delete, change password, clear board.
 - [x] QR codes: floating "Post a card" QR (→ /submit) on the board; per-card reveal
       QR (→ /c/:id) and tap-to-reveal. Uses window.location.origin. Prod build passes.
-- [ ] Deploy (Vercel/Netlify): SPA fallback rewrite + VITE_SUPABASE_* env vars.
+- [x] Deploy: GitHub (eClinicNCSU/want-it-got-it-board) → Vercel, auto-deploy on push.
+      **Live: https://want-it-got-it-board.vercel.app** — board/submit/admin verified in prod.
 
 ## Next steps
 
