@@ -134,8 +134,21 @@ the filter bar. Custom tags default to "Everything else" until an admin re-bucke
 2. **Submit form fields** — confirm required vs optional (name, major, grad year, contact,
    type, tags, paid?, deadline?).
 
+## Progress
+
+- [x] Scaffold Vite + React app, git repo.
+- [x] Board view (TV + iPad) matching the mockup — header/counts/clock, filter bar,
+      two columns, cards with badges/tags/avatars/time-ago.
+- [x] Supabase layer: `schema.sql` (cards + private contact table, RLS, RPCs, realtime),
+      client, `useCards` fetch + realtime subscription, sample-data fallback. Setup in README.
+- [ ] Submit form (`/submit`) + `submit_card` RPC wired to the UI.
+- [ ] Reveal page (`/c/:id`) using `reveal_contact`.
+- [ ] Manage link (`/m/:token`) using `manage_get` / `manage_set_status`.
+- [ ] Admin console (`/admin`) — approval queue, hide/remove, re-bucket, clear board.
+- [ ] Per-card QR (submit QR + reveal QR), routing, deploy.
+
 ## Next steps
 
-1. Scaffold the Vite app + Supabase project.
-2. Build the **board view** first (TV + iPad share it) to match the mockup.
-3. Then submit form → reveal page → manage link → admin console.
+1. **(User)** Create the Supabase project and run `supabase/schema.sql` (see README).
+2. Build the **submit form** + wire the `submit_card` RPC.
+3. Then reveal page → manage link → admin console → QR + routing → deploy.

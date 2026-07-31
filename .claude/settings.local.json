@@ -5,7 +5,8 @@
       "Bash(git add *)",
       "Bash(git rm *)",
       "Bash(npm install *)",
-      "Bash(git -c core.autocrlf=true commit -q -m ' *)"
+      "Bash(git -c core.autocrlf=true commit -q -m ' *)",
+      "Bash(git config *)"
     ]
   }
 }

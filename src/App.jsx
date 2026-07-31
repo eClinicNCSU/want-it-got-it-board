@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import Header from './components/Header.jsx'
 import FilterBar from './components/FilterBar.jsx'
 import Column from './components/Column.jsx'
-import { SAMPLE_CARDS } from './lib/sampleData.js'
 import { cardInBucket } from './lib/buckets.js'
+import { useCards } from './lib/useCards.js'
 
 export default function App() {
   const [bucket, setBucket] = useState('all')
@@ -15,8 +15,9 @@ export default function App() {
     return () => clearInterval(id)
   }, [])
 
-  // TODO: swap SAMPLE_CARDS for a Supabase realtime subscription (approved cards only).
-  const cards = SAMPLE_CARDS
+  // Live cards from Supabase (approved only, realtime). Falls back to the
+  // mockup sample data until Supabase env vars are configured.
+  const { cards } = useCards()
 
   const visible = useMemo(
     () => cards.filter((c) => cardInBucket(c, bucket)),
