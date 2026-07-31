@@ -48,10 +48,12 @@ create index if not exists card_private_token_idx
 alter table public.cards enable row level security;
 alter table public.card_private enable row level security;
 
--- Public board: only approved, non-expired cards are readable.
+-- Public board: approved AND claimed cards are readable (claimed ones render
+-- dimmed on the board). Pending/hidden cards stay invisible. Expired cards drop off.
 drop policy if exists "read approved cards" on public.cards;
-create policy "read approved cards" on public.cards
-  for select using (status = 'approved' and expires_at > now());
+drop policy if exists "read visible cards" on public.cards;
+create policy "read visible cards" on public.cards
+  for select using (status in ('approved', 'claimed') and expires_at > now());
 
 -- card_private has RLS enabled and NO policies -> anon/authenticated are
 -- fully denied. It is reachable only via the SECURITY DEFINER functions.

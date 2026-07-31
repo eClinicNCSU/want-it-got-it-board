@@ -141,7 +141,8 @@ the filter bar. Custom tags default to "Everything else" until an admin re-bucke
       two columns, cards with badges/tags/avatars/time-ago.
 - [x] Supabase layer: `schema.sql` (cards + private contact table, RLS, RPCs, realtime),
       client, `useCards` fetch + realtime subscription, sample-data fallback. Setup in README.
-- [ ] Submit form (`/submit`) + `submit_card` RPC wired to the UI.
+- [x] Submit form (`/submit`) + `submit_card` RPC wired to the UI. Routing via
+      react-router. RPC + RLS verified end-to-end against the live DB.
 - [ ] Reveal page (`/c/:id`) using `reveal_contact`.
 - [ ] Manage link (`/m/:token`) using `manage_get` / `manage_set_status`.
 - [ ] Admin console (`/admin`) — approval queue, hide/remove, re-bucket, clear board.

@@ -37,6 +37,16 @@ export function bucketForTag(tag) {
   return TAG_TO_BUCKET[String(tag).toLowerCase()] || 'else'
 }
 
+// Curated tags offered in the submit form's picker, grouped by bucket.
+// Students may also add a free-text "Other" tag (falls into "Everything else").
+export const TAG_OPTIONS = [
+  { bucket: 'code', label: 'Code', tags: ['software', 'web', 'react', 'data', 'ai', 'backend', 'mobile'] },
+  { bucket: 'design', label: 'Design', tags: ['design', 'ux', 'ui', 'illustration', 'branding'] },
+  { bucket: 'build', label: 'Build', tags: ['hardware', 'prototyping', 'fabrication', 'welding', 'manufacturing'] },
+  { bucket: 'business', label: 'Business', tags: ['business', 'strategy', 'finance', 'fundraising', 'grants', 'sales', 'marketing', 'legal', 'pitch'] },
+  { bucket: 'else', label: 'Everything else', tags: ['science', 'chemistry', 'process', 'operations', 'video', 'testing', 'feedback', 'cofounder'] },
+]
+
 // A card matches a bucket if any of its tags roll up into that bucket.
 export function cardInBucket(card, bucketId) {
   if (bucketId === 'all') return true
