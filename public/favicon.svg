@@ -1,0 +1,23 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="glowL" cx="28%" cy="24%" r="80%">
+      <stop offset="0%" stop-color="#ec4c6f" stop-opacity="0.40"/>
+      <stop offset="62%" stop-color="#ec4c6f" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowR" cx="76%" cy="82%" r="80%">
+      <stop offset="0%" stop-color="#34d07f" stop-opacity="0.34"/>
+      <stop offset="62%" stop-color="#34d07f" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- full-bleed dark background (safe for maskable) -->
+  <rect width="512" height="512" fill="#0b0a10"/>
+  <rect width="512" height="512" fill="url(#glowL)"/>
+  <rect width="512" height="512" fill="url(#glowR)"/>
+
+  <!-- split disc: left = Want it (red), right = Got it (green) -->
+  <path d="M256,136 A120,120 0 0,0 256,376 Z" fill="#ec4c6f"/>
+  <path d="M256,136 A120,120 0 0,1 256,376 Z" fill="#34d07f"/>
+  <!-- thin gap down the middle -->
+  <rect x="252" y="132" width="8" height="248" rx="4" fill="#0b0a10"/>
+</svg>
