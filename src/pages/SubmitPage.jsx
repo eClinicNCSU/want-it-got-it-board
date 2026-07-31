@@ -323,7 +323,7 @@ export default function SubmitPage() {
           <input
             id="contact"
             className="input"
-            placeholder="email, phone, LinkedIn, @insta…"
+            placeholder="e.g. jdoe@ncsu.edu · (919) 555-0148 · @jdoe"
             value={form.contact}
             onChange={(e) => set('contact', e.target.value)}
           />
