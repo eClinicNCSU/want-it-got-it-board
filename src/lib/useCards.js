@@ -42,8 +42,14 @@ export function useCards() {
       )
       .subscribe()
 
+    // Safety net for the always-on TV: a periodic refetch guarantees the board
+    // stays current even if a realtime event is missed (e.g. the pending ->
+    // approved visibility transition), and drops cards as they expire.
+    const poll = setInterval(load, 60_000)
+
     return () => {
       active = false
+      clearInterval(poll)
       supabase.removeChannel(channel)
     }
   }, [])

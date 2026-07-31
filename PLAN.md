@@ -145,7 +145,8 @@ the filter bar. Custom tags default to "Everything else" until an admin re-bucke
       react-router. RPC + RLS verified end-to-end against the live DB.
 - [ ] Reveal page (`/c/:id`) using `reveal_contact`.
 - [ ] Manage link (`/m/:token`) using `manage_get` / `manage_set_status`.
-- [ ] Admin console (`/admin`) — approval queue, hide/remove, re-bucket, clear board.
+- [x] Admin console (`/admin`) — rotatable shared-password login (bcrypt in DB),
+      approval queue, approve/hide/claim/delete, change password, clear board.
 - [ ] Per-card QR (submit QR + reveal QR), routing, deploy.
 
 ## Next steps

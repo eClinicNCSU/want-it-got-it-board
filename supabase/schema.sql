@@ -148,3 +148,111 @@ begin
       create publication supabase_realtime for table public.cards;
   end;
 end $$;
+
+-- ============================================================
+--  Admin: shared-password moderation (rotatable)
+--  The password is stored ONLY as a bcrypt hash. Every admin action runs
+--  through a SECURITY DEFINER function that verifies the password first, so
+--  no privileged key ever lives in the frontend.
+-- ============================================================
+
+-- Single-row config table holding the bcrypt password hash.
+create table if not exists public.admin_config (
+  id            integer primary key default 1,
+  password_hash text not null,
+  constraint admin_config_singleton check (id = 1)
+);
+
+alter table public.admin_config enable row level security;
+-- No policies -> anon/authenticated fully denied. Only definer functions touch it.
+
+-- Seed a default password ('changeme') ONCE. Re-running this file will NOT
+-- reset it (on conflict do nothing). Change it immediately in the admin UI.
+insert into public.admin_config (id, password_hash)
+values (1, crypt('changeme', gen_salt('bf')))
+on conflict (id) do nothing;
+
+-- Verify a password (used for login).
+create or replace function public.admin_verify(p_password text)
+returns boolean
+language sql security definer set search_path = public as $$
+  select exists (
+    select 1 from public.admin_config
+    where id = 1 and password_hash = crypt(p_password, password_hash)
+  );
+$$;
+
+-- Internal guard: raise if the password is wrong. NOT granted to anon; it only
+-- runs inside the definer functions below (as the function owner).
+create or replace function public.admin_check(p_password text)
+returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if not public.admin_verify(p_password) then
+    raise exception 'unauthorized' using errcode = '28000';
+  end if;
+end; $$;
+
+-- List every card for the moderation queue (pending first). No contact info.
+create or replace function public.admin_list_cards(p_password text)
+returns setof public.cards
+language plpgsql security definer set search_path = public as $$
+begin
+  perform public.admin_check(p_password);
+  return query
+    select * from public.cards
+    order by case status when 'pending' then 0 else 1 end, created_at desc;
+end; $$;
+
+-- Set a card's status (approve / hide / claim / re-queue).
+create or replace function public.admin_set_status(
+  p_password text, p_card_id uuid, p_status text
+) returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  perform public.admin_check(p_password);
+  if p_status not in ('pending', 'approved', 'claimed', 'hidden') then
+    raise exception 'invalid status %', p_status;
+  end if;
+  update public.cards set status = p_status where id = p_card_id;
+end; $$;
+
+-- Delete a single card (hard delete; card_private cascades).
+create or replace function public.admin_delete_card(p_password text, p_card_id uuid)
+returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  perform public.admin_check(p_password);
+  delete from public.cards where id = p_card_id;
+end; $$;
+
+-- Clear the whole board (end-of-semester reset).
+create or replace function public.admin_clear_board(p_password text)
+returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  perform public.admin_check(p_password);
+  delete from public.cards;
+end; $$;
+
+-- Rotate the shared password (requires the current one).
+create or replace function public.admin_change_password(
+  p_password text, p_new_password text
+) returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  perform public.admin_check(p_password);
+  if char_length(p_new_password) < 6 then
+    raise exception 'new password must be at least 6 characters';
+  end if;
+  update public.admin_config
+    set password_hash = crypt(p_new_password, gen_salt('bf'))
+    where id = 1;
+end; $$;
+
+grant execute on function public.admin_verify(text) to anon;
+grant execute on function public.admin_list_cards(text) to anon;
+grant execute on function public.admin_set_status(text, uuid, text) to anon;
+grant execute on function public.admin_delete_card(text, uuid) to anon;
+grant execute on function public.admin_clear_board(text) to anon;
+grant execute on function public.admin_change_password(text, text) to anon;

@@ -41,6 +41,21 @@ The app works without a backend (sample data). To make cards persist and stream 
 > The `anon` key is safe to expose in a frontend — it's gated by row-level security.
 > Never put the **service_role** key in this app.
 
+> **Re-running the schema:** `schema.sql` is idempotent — safe to run again whenever it
+> changes. It won't reset your data or your admin password.
+
+## Admin console
+
+Moderation lives at **`/admin`**. Students' submissions arrive as `pending` and stay invisible
+on the board until an admin approves them there.
+
+- **Access** is a single shared password, checked inside the database against a bcrypt hash —
+  no privileged key is ever in the browser.
+- **The default password is `changeme`.** ⚠️ **Change it immediately**: sign in at `/admin`,
+  then **Settings → Change password**. Rotate it anytime the same way.
+- From the console you can **approve / hide / mark claimed / delete** cards, and **clear the
+  board** (end-of-semester reset).
+
 ## How the data is protected
 
 - **`public.cards`** holds board data and contains **no contact info**. The public can
