@@ -11,7 +11,9 @@
 --  through the SECURITY DEFINER functions below.
 -- ============================================================
 
-create extension if not exists "pgcrypto";
+-- pgcrypto (crypt/gen_salt) lives in the `extensions` schema on Supabase; we
+-- reference those functions as extensions.crypt(...) below.
+create extension if not exists pgcrypto with schema extensions;
 
 -- ---------- Tables ----------
 
@@ -169,7 +171,7 @@ alter table public.admin_config enable row level security;
 -- Seed a default password ('changeme') ONCE. Re-running this file will NOT
 -- reset it (on conflict do nothing). Change it immediately in the admin UI.
 insert into public.admin_config (id, password_hash)
-values (1, crypt('changeme', gen_salt('bf')))
+values (1, extensions.crypt('changeme', extensions.gen_salt('bf')))
 on conflict (id) do nothing;
 
 -- Verify a password (used for login).
@@ -178,7 +180,7 @@ returns boolean
 language sql security definer set search_path = public as $$
   select exists (
     select 1 from public.admin_config
-    where id = 1 and password_hash = crypt(p_password, password_hash)
+    where id = 1 and password_hash = extensions.crypt(p_password, password_hash)
   );
 $$;
 
@@ -246,7 +248,7 @@ begin
     raise exception 'new password must be at least 6 characters';
   end if;
   update public.admin_config
-    set password_hash = crypt(p_new_password, gen_salt('bf'))
+    set password_hash = extensions.crypt(p_new_password, extensions.gen_salt('bf'))
     where id = 1;
 end; $$;
 
