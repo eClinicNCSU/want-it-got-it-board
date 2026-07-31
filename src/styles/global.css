@@ -221,6 +221,12 @@ body {
   align-items: start;
 }
 
+/* Claimed view: a single centered column of filled requests. */
+.board--single {
+  grid-template-columns: minmax(0, 720px);
+  justify-content: center;
+}
+
 .column {
   border-radius: var(--radius-lg);
   border: 1px solid var(--card-border);

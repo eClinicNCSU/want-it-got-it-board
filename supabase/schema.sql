@@ -29,10 +29,15 @@ create table if not exists public.cards (
   is_paid      boolean not null default false,
   deadline     date,
   status       text not null default 'pending'
-                 check (status in ('pending', 'approved', 'claimed', 'hidden')),
+                 check (status in ('pending', 'approved', 'claimed', 'hidden', 'paused')),
   created_at   timestamptz not null default now(),
   expires_at   timestamptz not null default now() + interval '30 days'
 );
+
+-- Bring an existing cards table's status check up to date (adds 'paused').
+alter table public.cards drop constraint if exists cards_status_check;
+alter table public.cards add constraint cards_status_check
+  check (status in ('pending', 'approved', 'claimed', 'hidden', 'paused'));
 
 create table if not exists public.card_private (
   card_id      uuid primary key references public.cards(id) on delete cascade,
@@ -111,12 +116,16 @@ language sql security definer set search_path = public as $$
   where cp.manage_token = p_token;
 $$;
 
--- Manage page: poster marks their own card claimed (or un-claims it).
+-- Manage page: poster changes their own card's status.
+--   Want it: approved <-> claimed (filled / reopen)
+--   Got it:  approved <-> paused  (turn off / back on)
+-- Only from a live status (approved/claimed/paused) — a poster can't approve a
+-- pending card or un-hide one an admin hid. The UI shows the right action per type.
 create or replace function public.manage_set_status(p_token uuid, p_status text)
 returns void
 language plpgsql security definer set search_path = public as $$
 begin
-  if p_status not in ('approved', 'claimed') then
+  if p_status not in ('approved', 'claimed', 'paused') then
     raise exception 'invalid status %', p_status;
   end if;
   update public.cards c
@@ -124,7 +133,7 @@ begin
   from public.card_private cp
   where cp.card_id = c.id
     and cp.manage_token = p_token
-    and c.status in ('approved', 'claimed'); -- can't self-approve a pending card
+    and c.status in ('approved', 'claimed', 'paused');
 end; $$;
 
 -- Manage page: poster takes down their own card (card_private cascades).
@@ -225,7 +234,7 @@ create or replace function public.admin_set_status(
 language plpgsql security definer set search_path = public as $$
 begin
   perform public.admin_check(p_password);
-  if p_status not in ('pending', 'approved', 'claimed', 'hidden') then
+  if p_status not in ('pending', 'approved', 'claimed', 'hidden', 'paused') then
     raise exception 'invalid status %', p_status;
   end if;
   update public.cards set status = p_status where id = p_card_id;

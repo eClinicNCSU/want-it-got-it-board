@@ -11,11 +11,12 @@ import {
 import { timeAgo } from '../lib/time.js'
 
 const PW_KEY = 'wgi_admin_pw'
-const STATUS_ORDER = ['pending', 'approved', 'claimed', 'hidden']
+const STATUS_ORDER = ['pending', 'approved', 'claimed', 'paused', 'hidden']
 const STATUS_LABEL = {
   pending: 'Pending',
   approved: 'Approved',
   claimed: 'Claimed',
+  paused: 'Paused',
   hidden: 'Hidden',
 }
 
@@ -262,9 +263,14 @@ function AdminRow({ card, pw, busy, act }) {
             Approve
           </button>
         )}
-        {card.status === 'approved' && (
+        {card.type === 'wanted' && card.status === 'approved' && (
           <button className="btn" disabled={busy} onClick={() => act(setStatus('claimed'))}>
             Mark claimed
+          </button>
+        )}
+        {card.type === 'got_it' && card.status === 'approved' && (
+          <button className="btn" disabled={busy} onClick={() => act(setStatus('paused'))}>
+            Pause
           </button>
         )}
         {card.status !== 'hidden' && (

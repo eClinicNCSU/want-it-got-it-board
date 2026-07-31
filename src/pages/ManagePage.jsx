@@ -8,7 +8,14 @@ const STATUS_COPY = {
     note: 'A garage admin needs to approve this before it shows on the board.',
   },
   approved: { label: 'Live on the board', note: '' },
-  claimed: { label: 'Claimed', note: 'It shows on the board dimmed.' },
+  claimed: {
+    label: 'Claimed',
+    note: 'Marked as filled — it shows under the board’s Claimed filter.',
+  },
+  paused: {
+    label: 'Paused',
+    note: 'Turned off — it’s not on the board. Un-pause it anytime to bring it back.',
+  },
   hidden: {
     label: 'Hidden',
     note: 'An admin has hidden this card, so it isn’t on the board.',
@@ -102,14 +109,27 @@ export default function ManagePage() {
             {error && <p className="admin__error">{error}</p>}
 
             <div className="sheet__actions">
-              {card.status === 'approved' && (
+              {/* Want it: approved <-> claimed (filled / reopen) */}
+              {card.type === 'wanted' && card.status === 'approved' && (
                 <button className="btn btn--primary" disabled={busy} onClick={() => setStatus('claimed')}>
                   Mark as claimed
                 </button>
               )}
-              {card.status === 'claimed' && (
+              {card.type === 'wanted' && card.status === 'claimed' && (
                 <button className="btn btn--ok" disabled={busy} onClick={() => setStatus('approved')}>
                   Reopen
+                </button>
+              )}
+
+              {/* Got it: approved <-> paused (turn off / back on) */}
+              {card.type === 'got_it' && card.status === 'approved' && (
+                <button className="btn" disabled={busy} onClick={() => setStatus('paused')}>
+                  Pause
+                </button>
+              )}
+              {card.type === 'got_it' && card.status === 'paused' && (
+                <button className="btn btn--ok" disabled={busy} onClick={() => setStatus('approved')}>
+                  Un-pause
                 </button>
               )}
 
@@ -145,6 +165,6 @@ export default function ManagePage() {
 function statusBadge(status) {
   if (status === 'claimed') return 'claimed'
   if (status === 'approved') return 'new'
-  if (status === 'hidden') return 'deadline'
+  if (status === 'hidden' || status === 'paused') return 'deadline'
   return 'paid' // pending
 }
